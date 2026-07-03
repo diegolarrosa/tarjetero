@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import CardEditor from "../components/CardEditor.astro";
+---
+
+<BaseLayout>
+  <Header />
+
+  <main>
+    <!-- Hero: presenta la herramienta con una línea de carácter -->
+    <section class="mx-auto max-w-5xl px-6 pt-12 pb-2 text-center">
+      <p
+        class="mb-3 font-[family-name:var(--font-mono)] text-xs uppercase tracking-widest text-[var(--color-musgo)]"
+      >
+        Papelería digital
+      </p>
+      <h1
+        class="mx-auto max-w-2xl font-[family-name:var(--font-display)] text-4xl leading-tight text-[var(--color-tinta)] sm:text-5xl"
+      >
+        Convertí una cita en una tarjeta que da ganas de compartir.
+      </h1>
+      <p class="mx-auto mt-4 max-w-md text-[var(--color-humo)]">
+        Escribí, elegí un fondo y una tipografía, y descargá la imagen. Sin
+        cuentas, sin fricción.
+      </p>
+    </section>
+
+    <CardEditor />
+  </main>
+
+  <footer class="border-t border-[var(--color-borde)]">
+    <div
+      class="mx-auto max-w-5xl px-6 py-6 font-[family-name:var(--font-mono)] text-xs text-[var(--color-humo)]"
+    >
+      Tarjetero · proyecto de práctica · Astro + Tailwind + Fabric.js
+    </div>
+  </footer>
+</BaseLayout>

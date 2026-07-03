@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+/*
+  Sistema de diseño — "papelería editorial"
+  Paleta tierra-verdosa, deliberadamente lejos del cream+terracota típico.
+  Los tokens se exponen como variables CSS y como utilidades de Tailwind vía @theme.
+*/
+@theme {
+  --color-tinta: #22201b;        /* casi negro cálido, para texto */
+  --color-humo: #6b665c;         /* gris tierra, texto secundario */
+  --color-lino: #f3efe6;         /* fondo papel */
+  --color-lino-2: #e9e3d5;       /* papel un tono más profundo */
+  --color-musgo: #4a5d43;        /* verde musgo, acento principal */
+  --color-musgo-claro: #6f8465;  /* verde claro para hovers */
+  --color-oxido: #a6572f;        /* óxido, acento secundario cálido */
+  --color-borde: #d8d1c0;        /* hairlines */
+
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+html {
+  background: var(--color-lino);
+  color: var(--color-tinta);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Foco visible y accesible en todos los controles */
+:focus-visible {
+  outline: 2px solid var(--color-musgo);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

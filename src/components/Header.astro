@@ -1,0 +1,39 @@
+---
+// Header.astro — el componente reutilizable.
+// Se escribe una vez acá y cualquier página lo importa con <Header />.
+// Cuando sumemos usuarios (Supabase), el estado de login vivirá SOLO en este archivo.
+---
+
+<header class="border-b border-[var(--color-borde)]">
+  <div class="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
+    <a href="/" class="group flex items-baseline gap-2">
+      <span
+        class="font-[family-name:var(--font-display)] text-2xl font-600 tracking-tight text-[var(--color-tinta)]"
+      >
+        Tarjetero
+      </span>
+      <span
+        class="font-[family-name:var(--font-mono)] text-xs text-[var(--color-humo)]"
+      >
+        v0.1
+      </span>
+    </a>
+
+    <nav class="flex items-center gap-6">
+      <a
+        href="/"
+        class="text-sm text-[var(--color-humo)] transition-colors hover:text-[var(--color-tinta)]"
+      >
+        Editor
+      </a>
+      <!-- Marcador para el paso 2 (Supabase): acá irá "Ingresar" / estado de sesión -->
+      <button
+        class="rounded-md bg-[var(--color-musgo)] px-4 py-2 text-sm font-500 text-[var(--color-lino)] transition-colors hover:bg-[var(--color-musgo-claro)]"
+        disabled
+        title="Disponible cuando sumemos usuarios"
+      >
+        Ingresar
+      </button>
+    </nav>
+  </div>
+</header>
