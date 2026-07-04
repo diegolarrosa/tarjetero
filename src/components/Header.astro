@@ -1,38 +1,49 @@
 ---
-// Header.astro — el componente reutilizable.
-// Se escribe una vez acá y cualquier página lo importa con <Header />.
-// Cuando sumemos usuarios (Supabase), el estado de login vivirá SOLO en este archivo.
+// Header.astro — encabezado reutilizable, ahora con selector de idioma.
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// El logo y el enlace del editor apuntan a la raíz del idioma actual
+const homeHref = lang === "es" ? "/" : "/en/";
 ---
 
 <header class="border-b border-[var(--color-borde)]">
   <div class="mx-auto flex max-w-5xl items-center justify-between px-6 py-5">
-    <a href="/" class="group flex items-baseline gap-2">
-      <span
-        class="font-[family-name:var(--font-display)] text-2xl font-600 tracking-tight text-[var(--color-tinta)]"
-      >
+    <a href={homeHref} class="group flex items-baseline gap-2">
+      <span class="font-[family-name:var(--font-display)] text-2xl font-600 tracking-tight text-[var(--color-tinta)]">
         Tarjetero
       </span>
-      <span
-        class="font-[family-name:var(--font-mono)] text-xs text-[var(--color-humo)]"
-      >
-        v0.1
-      </span>
+      <span class="font-[family-name:var(--font-mono)] text-xs text-[var(--color-humo)]">v0.1</span>
     </a>
 
     <nav class="flex items-center gap-6">
-      <a
-        href="/"
-        class="text-sm text-[var(--color-humo)] transition-colors hover:text-[var(--color-tinta)]"
-      >
-        Editor
+      <a href={homeHref} class="text-sm text-[var(--color-humo)] transition-colors hover:text-[var(--color-tinta)]">
+        {t("nav.editor")}
       </a>
-      <!-- Marcador para el paso 2 (Supabase): acá irá "Ingresar" / estado de sesión -->
+
+      <!-- Selector de idioma: ES | EN -->
+      <div class="flex items-center gap-1 font-[family-name:var(--font-mono)] text-xs">
+        <a
+          href="/"
+          class={`px-1.5 py-0.5 rounded transition-colors ${lang === "es" ? "bg-[var(--color-musgo)] text-[var(--color-lino)]" : "text-[var(--color-humo)] hover:text-[var(--color-tinta)]"}`}
+          aria-label="Ver en español"
+        >ES</a>
+        <span class="text-[var(--color-borde)]">/</span>
+        <a
+          href="/en/"
+          class={`px-1.5 py-0.5 rounded transition-colors ${lang === "en" ? "bg-[var(--color-musgo)] text-[var(--color-lino)]" : "text-[var(--color-humo)] hover:text-[var(--color-tinta)]"}`}
+          aria-label="View in English"
+        >EN</a>
+      </div>
+
       <button
         class="rounded-md bg-[var(--color-musgo)] px-4 py-2 text-sm font-500 text-[var(--color-lino)] transition-colors hover:bg-[var(--color-musgo-claro)]"
         disabled
-        title="Disponible cuando sumemos usuarios"
+        title={t("nav.login.title")}
       >
-        Ingresar
+        {t("nav.login")}
       </button>
     </nav>
   </div>

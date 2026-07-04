@@ -1,78 +1,78 @@
 ---
-// CardEditor.astro — el corazón del proyecto.
-// La UI de controles se renderiza como HTML (server-side, buena para SEO).
-// El canvas interactivo (Fabric.js) se activa en el navegador vía el script del final.
+// CardEditor.astro — el editor. Los textos de la interfaz ahora se traducen;
+// la lógica del canvas (Fabric.js) recibe los valores por defecto del idioma.
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <section class="mx-auto max-w-5xl px-6 py-10">
   <div class="grid gap-8 lg:grid-cols-[1fr_340px]">
-    <!-- Columna izquierda: previsualización de la tarjeta -->
+    <!-- Previsualización de la tarjeta -->
     <div class="flex flex-col items-center">
-      <div
-        class="rounded-xl border border-[var(--color-borde)] bg-white p-4 shadow-sm"
-      >
-        <canvas id="card-canvas" width="600" height="600"></canvas>
+      <div class="rounded-xl border border-[var(--color-borde)] bg-white p-4 shadow-sm">
+        <canvas
+          id="card-canvas"
+          width="600"
+          height="600"
+          data-quote={t("editor.quote.default")}
+          data-author={t("editor.author.default")}
+        ></canvas>
       </div>
       <p class="mt-3 font-[family-name:var(--font-mono)] text-xs text-[var(--color-humo)]">
-        600 × 600 px · listo para redes
+        {t("editor.dimensions")}
       </p>
     </div>
 
-    <!-- Columna derecha: la "mesa de trabajo" con los controles -->
+    <!-- Controles -->
     <div class="flex flex-col gap-6">
       <div>
-        <label
-          for="quote-text"
-          class="mb-2 block font-[family-name:var(--font-display)] text-lg text-[var(--color-tinta)]"
-        >
-          Tu cita
+        <label for="quote-text" class="mb-2 block font-[family-name:var(--font-display)] text-lg text-[var(--color-tinta)]">
+          {t("editor.quote.label")}
         </label>
         <textarea
           id="quote-text"
           rows="4"
           class="w-full resize-none rounded-md border border-[var(--color-borde)] bg-[var(--color-lino)] px-3 py-2 text-sm text-[var(--color-tinta)] focus:border-[var(--color-musgo)] focus:outline-none"
-          placeholder="Escribí algo memorable…"
-        >La simplicidad es la máxima sofisticación.</textarea>
+          placeholder={t("editor.quote.placeholder")}
+          set:text={t("editor.quote.default")}
+        ></textarea>
       </div>
 
       <div>
-        <label
-          for="author-text"
-          class="mb-2 block font-[family-name:var(--font-display)] text-lg text-[var(--color-tinta)]"
-        >
-          Autor
+        <label for="author-text" class="mb-2 block font-[family-name:var(--font-display)] text-lg text-[var(--color-tinta)]">
+          {t("editor.author.label")}
         </label>
         <input
           id="author-text"
           type="text"
-          value="Leonardo da Vinci"
+          value={t("editor.author.default")}
           class="w-full rounded-md border border-[var(--color-borde)] bg-[var(--color-lino)] px-3 py-2 text-sm text-[var(--color-tinta)] focus:border-[var(--color-musgo)] focus:outline-none"
         />
       </div>
 
       <div>
-        <span
-          class="mb-2 block font-[family-name:var(--font-display)] text-lg text-[var(--color-tinta)]"
-          >Fondo</span
-        >
+        <span class="mb-2 block font-[family-name:var(--font-display)] text-lg text-[var(--color-tinta)]">
+          {t("editor.bg.label")}
+        </span>
         <div class="flex gap-2" id="bg-swatches">
-          <button data-bg="#f3efe6" class="swatch h-9 w-9 rounded-full border border-[var(--color-borde)]" style="background:#f3efe6" aria-label="Fondo lino"></button>
-          <button data-bg="#4a5d43" class="swatch h-9 w-9 rounded-full border border-[var(--color-borde)]" style="background:#4a5d43" aria-label="Fondo musgo"></button>
-          <button data-bg="#22201b" class="swatch h-9 w-9 rounded-full border border-[var(--color-borde)]" style="background:#22201b" aria-label="Fondo tinta"></button>
-          <button data-bg="#a6572f" class="swatch h-9 w-9 rounded-full border border-[var(--color-borde)]" style="background:#a6572f" aria-label="Fondo óxido"></button>
-          <button data-bg="#e9e3d5" class="swatch h-9 w-9 rounded-full border border-[var(--color-borde)]" style="background:#e9e3d5" aria-label="Fondo papel"></button>
+          <button data-bg="#f3efe6" class="swatch h-9 w-9 rounded-full border border-[var(--color-borde)]" style="background:#f3efe6" aria-label="Lino"></button>
+          <button data-bg="#4a5d43" class="swatch h-9 w-9 rounded-full border border-[var(--color-borde)]" style="background:#4a5d43" aria-label="Musgo"></button>
+          <button data-bg="#22201b" class="swatch h-9 w-9 rounded-full border border-[var(--color-borde)]" style="background:#22201b" aria-label="Tinta"></button>
+          <button data-bg="#a6572f" class="swatch h-9 w-9 rounded-full border border-[var(--color-borde)]" style="background:#a6572f" aria-label="Óxido"></button>
+          <button data-bg="#e9e3d5" class="swatch h-9 w-9 rounded-full border border-[var(--color-borde)]" style="background:#e9e3d5" aria-label="Papel"></button>
         </div>
       </div>
 
       <div>
-        <span
-          class="mb-2 block font-[family-name:var(--font-display)] text-lg text-[var(--color-tinta)]"
-          >Tipografía</span
-        >
+        <span class="mb-2 block font-[family-name:var(--font-display)] text-lg text-[var(--color-tinta)]">
+          {t("editor.font.label")}
+        </span>
         <div class="flex gap-2" id="font-options">
-          <button data-font="Fraunces" class="font-btn flex-1 rounded-md border border-[var(--color-borde)] px-3 py-2 text-sm" style="font-family:Fraunces,serif">Serif</button>
-          <button data-font="Inter" class="font-btn flex-1 rounded-md border border-[var(--color-borde)] px-3 py-2 text-sm" style="font-family:Inter,sans-serif">Sans</button>
-          <button data-font="IBM Plex Mono" class="font-btn flex-1 rounded-md border border-[var(--color-borde)] px-3 py-2 text-sm" style="font-family:'IBM Plex Mono',monospace">Mono</button>
+          <button data-font="Fraunces" class="font-btn flex-1 rounded-md border border-[var(--color-borde)] px-3 py-2 text-sm" style="font-family:Fraunces,serif">{t("editor.font.serif")}</button>
+          <button data-font="Inter" class="font-btn flex-1 rounded-md border border-[var(--color-borde)] px-3 py-2 text-sm" style="font-family:Inter,sans-serif">{t("editor.font.sans")}</button>
+          <button data-font="IBM Plex Mono" class="font-btn flex-1 rounded-md border border-[var(--color-borde)] px-3 py-2 text-sm" style="font-family:'IBM Plex Mono',monospace">{t("editor.font.mono")}</button>
         </div>
       </div>
 
@@ -80,7 +80,7 @@
         id="download-btn"
         class="mt-2 rounded-md bg-[var(--color-oxido)] px-4 py-3 text-sm font-500 text-[var(--color-lino)] transition-colors hover:brightness-110"
       >
-        Descargar imagen
+        {t("editor.download")}
       </button>
     </div>
   </div>
@@ -93,10 +93,12 @@
   const HEX_CLARO = "#f3efe6";
   const HEX_OSCURO = "#22201b";
 
-  // Estado actual de la tarjeta
+  const canvasEl = document.getElementById("card-canvas") as HTMLCanvasElement;
+
+  // Los valores por defecto vienen del HTML (ya traducidos según el idioma)
   const state = {
-    quote: "La simplicidad es la máxima sofisticación.",
-    author: "Leonardo da Vinci",
+    quote: canvasEl?.dataset.quote || "",
+    author: canvasEl?.dataset.author || "",
     bg: "#f3efe6",
     font: "Fraunces",
   };
@@ -106,67 +108,34 @@
     selection: false,
   });
 
-  // Devuelve un color de texto legible según el fondo elegido
   function textColorFor(bg: string): string {
-    return bg === HEX_OSCURO || bg === "#4a5d43" || bg === "#a6572f"
-      ? HEX_CLARO
-      : HEX_OSCURO;
+    return bg === HEX_OSCURO || bg === "#4a5d43" || bg === "#a6572f" ? HEX_CLARO : HEX_OSCURO;
   }
-
-  let quoteObj: fabric.Textbox;
-  let authorObj: fabric.Textbox;
-  let markObj: fabric.Textbox;
 
   function render() {
     canvas.clear();
     canvas.backgroundColor = state.bg;
     const color = textColorFor(state.bg);
 
-    // Comilla decorativa grande
-    markObj = new fabric.Textbox("\u201C", {
-      left: 60,
-      top: 40,
-      width: 200,
-      fontSize: 120,
-      fontFamily: state.font,
-      fill: color,
-      opacity: 0.25,
-      selectable: false,
-      evented: false,
+    const markObj = new fabric.Textbox("\u201C", {
+      left: 60, top: 40, width: 200, fontSize: 120, fontFamily: state.font,
+      fill: color, opacity: 0.25, selectable: false, evented: false,
     });
 
-    // Cita principal
-    quoteObj = new fabric.Textbox(state.quote, {
-      left: 60,
-      top: 180,
-      width: 480,
-      fontSize: 40,
-      lineHeight: 1.2,
-      fontFamily: state.font,
+    const quoteObj = new fabric.Textbox(state.quote, {
+      left: 60, top: 180, width: 480, fontSize: 40, lineHeight: 1.2, fontFamily: state.font,
       fontStyle: state.font === "Fraunces" ? "italic" : "normal",
-      fill: color,
-      selectable: false,
-      evented: false,
+      fill: color, selectable: false, evented: false,
     });
 
-    // Autor
-    authorObj = new fabric.Textbox("— " + state.author, {
-      left: 60,
-      top: 500,
-      width: 480,
-      fontSize: 20,
-      fontFamily: "IBM Plex Mono",
-      fill: color,
-      opacity: 0.75,
-      selectable: false,
-      evented: false,
+    const authorObj = new fabric.Textbox("\u2014 " + state.author, {
+      left: 60, top: 500, width: 480, fontSize: 20, fontFamily: "IBM Plex Mono",
+      fill: color, opacity: 0.75, selectable: false, evented: false,
     });
 
     canvas.add(markObj, quoteObj, authorObj);
     canvas.renderAll();
   }
-
-  // --- Conexión de los controles con el estado ---
 
   const quoteInput = document.getElementById("quote-text") as HTMLTextAreaElement;
   quoteInput?.addEventListener("input", (e) => {
@@ -181,20 +150,13 @@
   });
 
   document.querySelectorAll<HTMLButtonElement>("#bg-swatches .swatch").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      state.bg = btn.dataset.bg!;
-      render();
-    });
+    btn.addEventListener("click", () => { state.bg = btn.dataset.bg!; render(); });
   });
 
   document.querySelectorAll<HTMLButtonElement>("#font-options .font-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      state.font = btn.dataset.font!;
-      render();
-    });
+    btn.addEventListener("click", () => { state.font = btn.dataset.font!; render(); });
   });
 
-  // Descarga: exporta el canvas a PNG y dispara la descarga
   document.getElementById("download-btn")?.addEventListener("click", () => {
     const dataURL = canvas.toDataURL({ format: "png", multiplier: 2 });
     const link = document.createElement("a");
@@ -203,6 +165,5 @@
     link.click();
   });
 
-  // Esperamos a que las fuentes carguen para el primer render, si no el texto sale con la fuente por defecto
   document.fonts.ready.then(render);
 </script>

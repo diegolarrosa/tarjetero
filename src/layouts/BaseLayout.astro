@@ -1,5 +1,9 @@
 ---
 import "../styles/global.css";
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 
 interface Props {
   title?: string;
@@ -7,19 +11,19 @@ interface Props {
 }
 
 const {
-  title = "Tarjetero — generador de tarjetas de cita",
-  description = "Diseñá una tarjeta con tu cita favorita, elegí colores y tipografía, y descargala como imagen lista para compartir.",
+  title = t("meta.title"),
+  description = t("meta.description"),
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- SEO: estas etiquetas se sirven en el HTML, visibles para buscadores y crawlers de IA -->
+    <!-- SEO: contenido servido en HTML, visible para buscadores y crawlers de IA -->
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />
@@ -27,7 +31,12 @@ const {
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- Tipografías con carácter: Fraunces (display) + Inter (cuerpo) + IBM Plex Mono (datos) -->
+    <!-- hreflang: le dice a Google que existen versiones en cada idioma -->
+    <link rel="alternate" hreflang="es" href={new URL("/", Astro.site ?? Astro.url.origin).href} />
+    <link rel="alternate" hreflang="en" href={new URL("/en/", Astro.site ?? Astro.url.origin).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL("/", Astro.site ?? Astro.url.origin).href} />
+
+    <!-- Tipografías: Fraunces (display) + Inter (cuerpo) + IBM Plex Mono (datos) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
