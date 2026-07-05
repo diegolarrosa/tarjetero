@@ -4,4 +4,4 @@
 
 # Node 20 para asegurar compatibilidad con Astro 5.
 [build.environment]
-  NODE_VERSION = "20"
+  NODE_VERSION = "22"
