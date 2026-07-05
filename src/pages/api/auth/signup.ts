@@ -1,8 +1,6 @@
 // Endpoint de registro. Recibe el formulario y crea el usuario en Supabase.
 export const prerender = false;
 
-console.log("URL leída:", import.meta.env.PUBLIC_SUPABASE_URL);
-
 import type { APIRoute } from "astro";
 import { createSupabaseServerClient } from "../../../lib/supabase";
 

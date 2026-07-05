@@ -1,0 +1,18 @@
+---
+// Footer.astro — pie compartido con enlaces legales.
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<footer class="border-t border-[var(--color-borde)]">
+  <div class="mx-auto flex max-w-5xl flex-col gap-2 px-6 py-6 text-xs text-[var(--color-humo)] sm:flex-row sm:items-center sm:justify-between">
+    <span class="font-[family-name:var(--font-mono)]">{t("footer.text")}</span>
+    <nav class="flex gap-4">
+      <a href="/frases" class="transition-colors hover:text-[var(--color-tinta)]">Frases</a>
+      <a href="/guia" class="transition-colors hover:text-[var(--color-tinta)]">Guía</a>
+      <a href="/privacidad" class="transition-colors hover:text-[var(--color-tinta)]">Privacidad</a>
+      <a href="/terminos" class="transition-colors hover:text-[var(--color-tinta)]">Términos</a>
+    </nav>
+  </div>
+</footer>

@@ -4,6 +4,7 @@
 // solo cambian los textos (vía el diccionario).
 import Header from "./Header.astro";
 import CardEditor from "./CardEditor.astro";
+import Footer from "./Footer.astro";
 import { getLangFromUrl, useTranslations } from "../i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
@@ -28,8 +29,4 @@ const t = useTranslations(lang);
   <CardEditor />
 </main>
 
-<footer class="border-t border-[var(--color-borde)]">
-  <div class="mx-auto max-w-5xl px-6 py-6 font-[family-name:var(--font-mono)] text-xs text-[var(--color-humo)]">
-    {t("footer.text")}
-  </div>
-</footer>
+<Footer />

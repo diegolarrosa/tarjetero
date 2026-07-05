@@ -1,0 +1,93 @@
+---
+export const prerender = false;
+// Términos de servicio. Base estándar — NO reemplaza el consejo de un abogado.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+
+const actualizada = "julio de 2026";
+---
+
+<BaseLayout
+  title="Términos de servicio | Tarjetero"
+  description="Condiciones de uso de Tarjetero."
+>
+  <Header />
+
+  <main class="mx-auto max-w-2xl px-6 py-12">
+    <h1 class="mb-2 font-[family-name:var(--font-display)] text-3xl text-[var(--color-tinta)]">
+      Términos de servicio
+    </h1>
+    <p class="mb-8 font-[family-name:var(--font-mono)] text-xs text-[var(--color-humo)]">
+      Última actualización: {actualizada}
+    </p>
+
+    <div class="flex flex-col gap-6 text-[var(--color-tinta)]">
+      <section>
+        <p class="text-[var(--color-humo)]">
+          Al usar Tarjetero («el sitio»), aceptás estos términos. Si no estás de acuerdo,
+          por favor no uses el sitio.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-2 font-[family-name:var(--font-display)] text-xl">Uso del sitio</h2>
+        <p class="text-[var(--color-humo)]">
+          Tarjetero te permite crear tarjetas con citas y descargarlas como imágenes.
+          Podés usar el sitio para fines personales y comerciales. Te comprometés a no
+          usarlo para actividades ilegales, ni para generar contenido que infrinja
+          derechos de terceros, resulte ofensivo, o vulnere leyes aplicables.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-2 font-[family-name:var(--font-display)] text-xl">Cuentas</h2>
+        <p class="text-[var(--color-humo)]">
+          Si creás una cuenta, sos responsable de mantener la confidencialidad de tu
+          contraseña y de la actividad que ocurra en ella. Podés eliminar tu cuenta en
+          cualquier momento.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-2 font-[family-name:var(--font-display)] text-xl">Contenido que creás</h2>
+        <p class="text-[var(--color-humo)]">
+          El contenido que generás (tus tarjetas) es tuyo. Sos responsable de tener los
+          derechos sobre las frases o textos que utilices. Tarjetero no reclama propiedad
+          sobre tus creaciones.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-2 font-[family-name:var(--font-display)] text-xl">Disponibilidad y garantías</h2>
+        <p class="text-[var(--color-humo)]">
+          El sitio se ofrece «tal cual», sin garantías de disponibilidad ininterrumpida.
+          Podemos modificar, suspender o discontinuar el servicio en cualquier momento.
+          No nos responsabilizamos por pérdidas derivadas del uso o la imposibilidad de
+          uso del sitio, en la medida que lo permita la ley.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-2 font-[family-name:var(--font-display)] text-xl">Cambios en los términos</h2>
+        <p class="text-[var(--color-humo)]">
+          Podemos actualizar estos términos ocasionalmente. El uso continuado del sitio
+          después de un cambio implica la aceptación de los nuevos términos.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-2 font-[family-name:var(--font-display)] text-xl">Contacto</h2>
+        <p class="text-[var(--color-humo)]">
+          Ante cualquier duda sobre estos términos, podés escribirnos a través de los
+          canales de contacto del sitio.
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="border-t border-[var(--color-borde)]">
+    <div class="mx-auto max-w-2xl px-6 py-6 font-[family-name:var(--font-mono)] text-xs text-[var(--color-humo)]">
+      Tarjetero · términos de servicio
+    </div>
+  </footer>
+</BaseLayout>

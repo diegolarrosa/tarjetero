@@ -45,6 +45,15 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).hr
     <!-- Datos estructurados (Schema.org). Le explican a Google y a las IA qué es esta página. -->
     {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
 
+    <!-- Analítica Umami (sin cookies, respeta privacidad). Solo se carga si hay ID configurado. -->
+    {import.meta.env.PUBLIC_UMAMI_WEBSITE_ID && (
+      <script
+        defer
+        src="https://cloud.umami.is/script.js"
+        data-website-id={import.meta.env.PUBLIC_UMAMI_WEBSITE_ID}
+      />
+    )}
+
     <!-- Tipografías: Fraunces (display) + Inter (cuerpo) + IBM Plex Mono (datos) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

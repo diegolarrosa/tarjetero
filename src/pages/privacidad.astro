@@ -1,0 +1,109 @@
+---
+export const prerender = false;
+// Política de privacidad. Base estándar — NO reemplaza el consejo de un abogado.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+
+const actualizada = "julio de 2026";
+---
+
+<BaseLayout
+  title="Política de privacidad | Tarjetero"
+  description="Cómo Tarjetero recolecta, usa y protege tus datos."
+>
+  <Header />
+
+  <main class="mx-auto max-w-2xl px-6 py-12">
+    <h1 class="mb-2 font-[family-name:var(--font-display)] text-3xl text-[var(--color-tinta)]">
+      Política de privacidad
+    </h1>
+    <p class="mb-8 font-[family-name:var(--font-mono)] text-xs text-[var(--color-humo)]">
+      Última actualización: {actualizada}
+    </p>
+
+    <div class="flex flex-col gap-6 text-[var(--color-tinta)]">
+      <section>
+        <p class="text-[var(--color-humo)]">
+          Esta política explica qué datos recolecta Tarjetero («el sitio»), con qué
+          fin y cómo se manejan. Al usar el sitio, aceptás las prácticas descritas acá.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-2 font-[family-name:var(--font-display)] text-xl">Qué datos recolectamos</h2>
+        <p class="mb-2 text-[var(--color-humo)]">
+          Recolectamos la mínima información necesaria para que el sitio funcione:
+        </p>
+        <ul class="ml-5 flex list-disc flex-col gap-2 text-[var(--color-humo)]">
+          <li>
+            <strong class="text-[var(--color-tinta)]">Cuenta:</strong> si te registrás,
+            guardamos tu dirección de correo electrónico y una contraseña cifrada,
+            gestionadas de forma segura por nuestro proveedor de autenticación (Supabase).
+          </li>
+          <li>
+            <strong class="text-[var(--color-tinta)]">Tus tarjetas:</strong> si guardás
+            tarjetas, almacenamos su contenido (texto, autor, colores y tipografía)
+            asociado a tu cuenta, para que puedas recuperarlas.
+          </li>
+          <li>
+            <strong class="text-[var(--color-tinta)]">Analítica anónima:</strong> usamos
+            una herramienta de analítica que respeta la privacidad (Umami), que no usa
+            cookies ni recolecta datos personales. Solo mide visitas de forma agregada y
+            anónima (páginas vistas, país aproximado, tipo de dispositivo).
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="mb-2 font-[family-name:var(--font-display)] text-xl">Cómo usamos los datos</h2>
+        <p class="text-[var(--color-humo)]">
+          Usamos tu correo para gestionar tu cuenta y el acceso. Usamos el contenido de
+          tus tarjetas solo para mostrártelas a vos. Usamos la analítica anónima para
+          entender qué contenido es útil y mejorar el sitio. No vendemos tus datos a
+          terceros.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-2 font-[family-name:var(--font-display)] text-xl">Servicios de terceros</h2>
+        <p class="text-[var(--color-humo)]">
+          El sitio se apoya en proveedores externos que procesan datos en nuestro nombre:
+          Supabase (cuentas y almacenamiento de datos), Netlify (alojamiento) y Umami
+          (analítica anónima). Cada uno tiene sus propias políticas de privacidad. Si en
+          el futuro incorporamos publicidad (por ejemplo, Google AdSense), actualizaremos
+          esta política para reflejar el uso de cookies publicitarias, y te informaremos.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-2 font-[family-name:var(--font-display)] text-xl">Tus derechos</h2>
+        <p class="text-[var(--color-humo)]">
+          Podés acceder a tus datos, corregirlos o eliminarlos. Podés borrar tus tarjetas
+          desde tu cuenta en cualquier momento. Si querés eliminar tu cuenta por completo,
+          contactanos y lo haremos.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="mb-2 font-[family-name:var(--font-display)] text-xl">Contacto</h2>
+        <p class="text-[var(--color-humo)]">
+          Ante cualquier duda sobre esta política o tus datos, podés escribirnos a través
+          de los canales de contacto del sitio.
+        </p>
+      </section>
+
+      <section>
+        <p class="text-xs text-[var(--color-humo)]">
+          Podemos actualizar esta política ocasionalmente. La fecha de «última
+          actualización» arriba indica la versión vigente.
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="border-t border-[var(--color-borde)]">
+    <div class="mx-auto max-w-2xl px-6 py-6 font-[family-name:var(--font-mono)] text-xs text-[var(--color-humo)]">
+      Tarjetero · política de privacidad
+    </div>
+  </footer>
+</BaseLayout>
