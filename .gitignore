@@ -8,3 +8,6 @@ dist/
 .env.production
 # sistema
 .DS_Store
+
+# Local Netlify folder
+.netlify

@@ -1,5 +1,5 @@
 ---
-// Página privada: solo visible con sesión iniciada. SSR obligatorio.
+// Página privada: cuenta del usuario + sus tarjetas guardadas. SSR obligatorio.
 export const prerender = false;
 
 import BaseLayout from "../layouts/BaseLayout.astro";
@@ -9,21 +9,76 @@ import { useTranslations, getLangFromUrl } from "../i18n/utils";
 
 const t = useTranslations(getLangFromUrl(Astro.url));
 
-// El guardián: si no hay usuario, redirige al login.
 const supabase = createSupabaseServerClient(Astro.cookies);
 const { data: { user } } = await supabase.auth.getUser();
 if (!user) return Astro.redirect("/login");
+
+// Traemos las tarjetas del usuario. RLS garantiza que solo vengan las suyas.
+// Igual filtramos por user_id (recomendación de rendimiento de Supabase).
+const { data: tarjetas } = await supabase
+  .from("tarjetas")
+  .select("id, contenido, creada_en")
+  .eq("user_id", user.id)
+  .order("creada_en", { ascending: false });
+
+// Ayudante: color de texto legible según el fondo (mismo criterio que el editor)
+function textColorFor(bg) {
+  return bg === "#22201b" || bg === "#4a5d43" || bg === "#a6572f" ? "#f3efe6" : "#22201b";
+}
 ---
 
 <BaseLayout title={t("auth.account.title")}>
   <Header />
-  <section class="mx-auto max-w-2xl px-6 py-16">
-    <h1 class="mb-4 font-[family-name:var(--font-display)] text-3xl text-[var(--color-tinta)]">
+  <section class="mx-auto max-w-4xl px-6 py-12">
+    <h1 class="mb-2 font-[family-name:var(--font-display)] text-3xl text-[var(--color-tinta)]">
       {t("auth.account.title")}
     </h1>
-    <p class="mb-2 text-[var(--color-humo)]">
+    <p class="mb-8 text-[var(--color-humo)]">
       {t("auth.account.welcome")}: <span class="font-[family-name:var(--font-mono)] text-[var(--color-tinta)]">{user.email}</span>
     </p>
-    <p class="text-[var(--color-humo)]">{t("auth.account.soon")}</p>
+
+    <h2 class="mb-4 font-[family-name:var(--font-display)] text-2xl text-[var(--color-tinta)]">
+      {t("cards.mine")}
+    </h2>
+
+    {(!tarjetas || tarjetas.length === 0) ? (
+      <p class="text-[var(--color-humo)]">{t("cards.empty")}</p>
+    ) : (
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {tarjetas.map((tarjeta) => {
+          const c = tarjeta.contenido;
+          const color = textColorFor(c.bg);
+          return (
+            <div class="overflow-hidden rounded-lg border border-[var(--color-borde)]">
+              <!-- Mini-previsualización de la tarjeta con sus colores y texto -->
+              <div
+                class="flex aspect-square flex-col justify-between p-4"
+                style={`background:${c.bg};color:${color}`}
+              >
+                <span class="font-[family-name:var(--font-display)] text-3xl opacity-30">&#8220;</span>
+                <p
+                  class="line-clamp-4 text-sm leading-snug"
+                  style={`font-family:${c.font === "Fraunces" ? "Fraunces,serif" : c.font === "Inter" ? "Inter,sans-serif" : "'IBM Plex Mono',monospace"}`}
+                >
+                  {c.quote}
+                </p>
+                <span class="font-[family-name:var(--font-mono)] text-xs opacity-75">— {c.author}</span>
+              </div>
+              <div class="flex items-center justify-end border-t border-[var(--color-borde)] bg-[var(--color-lino)] px-3 py-2">
+                <form method="POST" action="/api/cards/delete">
+                  <input type="hidden" name="id" value={tarjeta.id} />
+                  <button
+                    type="submit"
+                    class="text-xs text-[var(--color-oxido)] transition-colors hover:underline"
+                  >
+                    {t("cards.delete")}
+                  </button>
+                </form>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    )}
   </section>
 </BaseLayout>

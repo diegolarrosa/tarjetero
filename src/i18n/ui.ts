@@ -52,6 +52,15 @@ export const ui = {
     "auth.account.title": "Tu cuenta",
     "auth.account.welcome": "Ingresaste como",
     "auth.account.soon": "Pronto vas a poder guardar tus tarjetas acá.",
+    // Guardado de tarjetas
+    "cards.save": "Guardar tarjeta",
+    "cards.saved": "¡Guardada!",
+    "cards.saveError": "No se pudo guardar. Intentá de nuevo.",
+    "cards.mine": "Mis tarjetas",
+    "cards.empty": "Todavía no guardaste ninguna tarjeta.",
+    "cards.delete": "Borrar",
+    "cards.load": "Abrir en el editor",
+    "cards.loginToSave": "Ingresá para guardar tus tarjetas.",
   },
   en: {
     "nav.editor": "Editor",
@@ -94,5 +103,14 @@ export const ui = {
     "auth.account.title": "Your account",
     "auth.account.welcome": "Signed in as",
     "auth.account.soon": "Soon you'll be able to save your cards here.",
+    // Card saving
+    "cards.save": "Save card",
+    "cards.saved": "Saved!",
+    "cards.saveError": "Couldn't save. Try again.",
+    "cards.mine": "My cards",
+    "cards.empty": "You haven't saved any cards yet.",
+    "cards.delete": "Delete",
+    "cards.load": "Open in editor",
+    "cards.loginToSave": "Sign in to save your cards.",
   },
 } as const;

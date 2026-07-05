@@ -2,9 +2,20 @@
 // CardEditor.astro — el editor. Los textos de la interfaz ahora se traducen;
 // la lógica del canvas (Fabric.js) recibe los valores por defecto del idioma.
 import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import { createSupabaseServerClient } from "../lib/supabase";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+// ¿Hay sesión? Solo mostramos "Guardar" si el usuario está logueado.
+let loggedIn = false;
+try {
+  const supabase = createSupabaseServerClient(Astro.cookies);
+  const { data: { user } } = await supabase.auth.getUser();
+  loggedIn = !!user;
+} catch {
+  loggedIn = false;
+}
 ---
 
 <section class="mx-auto max-w-5xl px-6 py-10">
@@ -82,6 +93,25 @@ const t = useTranslations(lang);
       >
         {t("editor.download")}
       </button>
+
+      {loggedIn ? (
+        <button
+          id="save-btn"
+          data-saved={t("cards.saved")}
+          data-error={t("cards.saveError")}
+          class="rounded-md border border-[var(--color-musgo)] px-4 py-3 text-sm font-500 text-[var(--color-musgo)] transition-colors hover:bg-[var(--color-musgo)] hover:text-[var(--color-lino)]"
+        >
+          {t("cards.save")}
+        </button>
+      ) : (
+        <a
+          href="/login"
+          class="text-center text-xs text-[var(--color-humo)] underline hover:text-[var(--color-tinta)]"
+        >
+          {t("cards.loginToSave")}
+        </a>
+      )}
+      <span id="save-status" class="text-center text-xs text-[var(--color-musgo)]"></span>
     </div>
   </div>
 </section>
@@ -163,6 +193,29 @@ const t = useTranslations(lang);
     link.download = "tarjeta.png";
     link.href = dataURL;
     link.click();
+  });
+
+  // Guardar la tarjeta (solo existe el botón si hay sesión)
+  const saveBtn = document.getElementById("save-btn") as HTMLButtonElement | null;
+  const saveStatus = document.getElementById("save-status");
+  saveBtn?.addEventListener("click", async () => {
+    saveBtn.disabled = true;
+    try {
+      const res = await fetch("/api/cards/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        // Guardamos el estado (texto, autor, fondo, fuente). Simple y suficiente
+        // para reconstruir la tarjeta después.
+        body: JSON.stringify(state),
+      });
+      if (!res.ok) throw new Error("save failed");
+      if (saveStatus) saveStatus.textContent = saveBtn.dataset.saved || "OK";
+    } catch {
+      if (saveStatus) saveStatus.textContent = saveBtn.dataset.error || "Error";
+    } finally {
+      saveBtn.disabled = false;
+      setTimeout(() => { if (saveStatus) saveStatus.textContent = ""; }, 2500);
+    }
   });
 
   document.fonts.ready.then(render);
