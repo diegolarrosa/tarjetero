@@ -33,6 +33,12 @@ try {
       <a href={homeHref} class="text-sm text-[var(--color-humo)] transition-colors hover:text-[var(--color-tinta)]">
         {t("nav.editor")}
       </a>
+      <a href="/frases" class="hidden text-sm text-[var(--color-humo)] transition-colors hover:text-[var(--color-tinta)] sm:inline">
+        Frases
+      </a>
+      <a href="/guia" class="hidden text-sm text-[var(--color-humo)] transition-colors hover:text-[var(--color-tinta)] sm:inline">
+        Guía
+      </a>
 
       <div class="flex items-center gap-1 font-[family-name:var(--font-mono)] text-xs">
         <a href="/" class={`px-1.5 py-0.5 rounded transition-colors ${lang === "es" ? "bg-[var(--color-musgo)] text-[var(--color-lino)]" : "text-[var(--color-humo)] hover:text-[var(--color-tinta)]"}`} aria-label="Ver en español">ES</a>

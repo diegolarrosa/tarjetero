@@ -1,0 +1,144 @@
+---
+export const prerender = false;
+// Guía: cómo hacer una tarjeta de cita. Contenido que responde una búsqueda real.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+
+// FAQ estructurada: Google puede mostrarla como resultado enriquecido.
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "¿Cómo hago una tarjeta con una frase?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Escribí la frase y el autor, elegí un fondo y una tipografía, y descargá la imagen. No hace falta crear una cuenta para descargar.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "¿Puedo guardar mis tarjetas?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Sí. Si iniciás sesión, podés guardar tus tarjetas y volver a abrirlas para editarlas cuando quieras.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "¿En qué formato se descarga la tarjeta?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "La tarjeta se descarga como imagen PNG de 600 por 600 píxeles, un tamaño ideal para compartir en redes sociales.",
+      },
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title="Cómo hacer una tarjeta de cita bonita (guía paso a paso) | Tarjetero"
+  description="Guía simple para convertir una frase en una tarjeta lista para compartir: elegí el texto, el fondo y la tipografía, y descargá la imagen en segundos."
+  jsonLd={jsonLd}
+>
+  <Header />
+
+  <main class="mx-auto max-w-2xl px-6 py-12">
+    <h1 class="mb-3 font-[family-name:var(--font-display)] text-4xl leading-tight text-[var(--color-tinta)]">
+      Cómo hacer una tarjeta de cita bonita
+    </h1>
+    <!-- Respuesta primero: resumen directo arriba -->
+    <p class="mb-10 text-lg text-[var(--color-humo)]">
+      En resumen: escribí tu frase, elegí un fondo y una tipografía, y descargá la
+      imagen. Toma menos de un minuto y no necesitás instalar nada. Abajo te lo
+      explicamos paso a paso.
+    </p>
+
+    <ol class="flex flex-col gap-6">
+      <li>
+        <h2 class="mb-1 font-[family-name:var(--font-display)] text-xl text-[var(--color-tinta)]">
+          1. Escribí la frase y el autor
+        </h2>
+        <p class="text-[var(--color-humo)]">
+          Empezá por el texto. Una buena tarjeta de cita se apoya en una frase clara
+          y breve. Agregá el autor para darle contexto y credibilidad.
+        </p>
+      </li>
+      <li>
+        <h2 class="mb-1 font-[family-name:var(--font-display)] text-xl text-[var(--color-tinta)]">
+          2. Elegí un fondo que combine con el tono
+        </h2>
+        <p class="text-[var(--color-humo)]">
+          El color del fondo cambia por completo la sensación. Tonos claros
+          transmiten calma; los oscuros, elegancia. El color del texto se ajusta
+          solo para que siempre se lea bien.
+        </p>
+      </li>
+      <li>
+        <h2 class="mb-1 font-[family-name:var(--font-display)] text-xl text-[var(--color-tinta)]">
+          3. Elegí la tipografía
+        </h2>
+        <p class="text-[var(--color-humo)]">
+          Una serif (con remates) da un aire clásico y editorial; una sans se ve
+          moderna y limpia; una monoespaciada, técnica. Probá las tres y quedate con
+          la que mejor acompañe tu frase.
+        </p>
+      </li>
+      <li>
+        <h2 class="mb-1 font-[family-name:var(--font-display)] text-xl text-[var(--color-tinta)]">
+          4. Descargá la imagen
+        </h2>
+        <p class="text-[var(--color-humo)]">
+          Cuando te guste cómo quedó, descargala como imagen PNG. Queda en un tamaño
+          cuadrado ideal para Instagram, WhatsApp o cualquier red.
+        </p>
+      </li>
+    </ol>
+
+    <div class="mt-10 rounded-lg border border-[var(--color-borde)] bg-white p-6 text-center">
+      <p class="mb-4 text-[var(--color-tinta)]">¿Listo para probarlo?</p>
+      <a
+        href="/"
+        class="inline-block rounded-md bg-[var(--color-oxido)] px-5 py-3 text-sm font-500 text-[var(--color-lino)] transition-colors hover:brightness-110"
+      >
+        Abrir el editor
+      </a>
+    </div>
+
+    <!-- FAQ visible (además de la estructurada) -->
+    <section class="mt-14">
+      <h2 class="mb-5 font-[family-name:var(--font-display)] text-2xl text-[var(--color-tinta)]">
+        Preguntas frecuentes
+      </h2>
+      <div class="flex flex-col gap-5">
+        <div>
+          <h3 class="mb-1 font-500 text-[var(--color-tinta)]">¿Cómo hago una tarjeta con una frase?</h3>
+          <p class="text-[var(--color-humo)]">
+            Escribí la frase y el autor, elegí un fondo y una tipografía, y descargá
+            la imagen. No hace falta crear una cuenta para descargar.
+          </p>
+        </div>
+        <div>
+          <h3 class="mb-1 font-500 text-[var(--color-tinta)]">¿Puedo guardar mis tarjetas?</h3>
+          <p class="text-[var(--color-humo)]">
+            Sí. Si iniciás sesión, podés guardar tus tarjetas y volver a abrirlas para
+            editarlas cuando quieras.
+          </p>
+        </div>
+        <div>
+          <h3 class="mb-1 font-500 text-[var(--color-tinta)]">¿En qué formato se descarga?</h3>
+          <p class="text-[var(--color-humo)]">
+            Como imagen PNG de 600 × 600 píxeles, ideal para redes sociales.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-[var(--color-borde)]">
+    <div class="mx-auto max-w-2xl px-6 py-6 font-[family-name:var(--font-mono)] text-xs text-[var(--color-humo)]">
+      Tarjetero · guía
+    </div>
+  </footer>
+</BaseLayout>

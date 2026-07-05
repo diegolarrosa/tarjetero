@@ -8,12 +8,17 @@ const t = useTranslations(lang);
 interface Props {
   title?: string;
   description?: string;
+  jsonLd?: object; // datos estructurados Schema.org opcionales, por página
 }
 
 const {
   title = t("meta.title"),
   description = t("meta.description"),
+  jsonLd,
 } = Astro.props;
+
+// URL canónica de esta página (evita contenido duplicado a ojos de Google)
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).href;
 ---
 
 <!doctype html>
@@ -26,6 +31,7 @@ const {
     <!-- SEO: contenido servido en HTML, visible para buscadores y crawlers de IA -->
     <title>{title}</title>
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
@@ -35,6 +41,9 @@ const {
     <link rel="alternate" hreflang="es" href={new URL("/", Astro.site ?? Astro.url.origin).href} />
     <link rel="alternate" hreflang="en" href={new URL("/en/", Astro.site ?? Astro.url.origin).href} />
     <link rel="alternate" hreflang="x-default" href={new URL("/", Astro.site ?? Astro.url.origin).href} />
+
+    <!-- Datos estructurados (Schema.org). Le explican a Google y a las IA qué es esta página. -->
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
 
     <!-- Tipografías: Fraunces (display) + Inter (cuerpo) + IBM Plex Mono (datos) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

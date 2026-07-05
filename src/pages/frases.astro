@@ -1,0 +1,85 @@
+---
+export const prerender = false;
+// Página de citas por tema. Contenido posicionable + cada cita lleva al editor.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import { temas } from "../data/citas";
+
+// Datos estructurados: declaramos la página como una colección de citas.
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Frases y citas para compartir",
+  description:
+    "Colección de frases de motivación, amor y éxito, listas para convertir en una tarjeta descargable.",
+  hasPart: temas.map((tema) => ({
+    "@type": "CreativeWork",
+    name: tema.titulo,
+    about: tema.descripcion,
+  })),
+};
+
+// Ayudante para armar el enlace al editor con la cita pre-cargada
+function enlaceEditor(texto: string, autor: string) {
+  const params = new URLSearchParams({ cita: texto, autor });
+  return `/?${params.toString()}`;
+}
+---
+
+<BaseLayout
+  title="Frases y citas para compartir — motivación, amor y éxito | Tarjetero"
+  description="Colección de frases de motivación, amor y éxito. Elegí una y convertila en una tarjeta bonita, lista para descargar y compartir en redes."
+  jsonLd={jsonLd}
+>
+  <Header />
+
+  <main class="mx-auto max-w-3xl px-6 py-12">
+    <!-- H1 único, con la promesa de la página (SEO: answer-first) -->
+    <h1 class="mb-3 font-[family-name:var(--font-display)] text-4xl leading-tight text-[var(--color-tinta)]">
+      Frases y citas para compartir
+    </h1>
+    <p class="mb-10 text-lg text-[var(--color-humo)]">
+      Una selección de frases por tema. Elegí la que te guste y convertila en una
+      tarjeta lista para compartir, con un solo clic.
+    </p>
+
+    {temas.map((tema) => (
+      <section class="mb-12">
+        <h2
+          id={tema.slug}
+          class="mb-2 font-[family-name:var(--font-display)] text-2xl text-[var(--color-tinta)]"
+        >
+          {tema.titulo}
+        </h2>
+        <p class="mb-5 text-[var(--color-humo)]">{tema.descripcion}</p>
+
+        <ul class="flex flex-col gap-4">
+          {tema.citas.map((cita) => (
+            <li class="rounded-lg border border-[var(--color-borde)] bg-white p-5">
+              <blockquote class="mb-2 font-[family-name:var(--font-display)] text-lg italic text-[var(--color-tinta)]">
+                “{cita.texto}”
+              </blockquote>
+              <div class="flex items-center justify-between">
+                <cite class="font-[family-name:var(--font-mono)] text-xs not-italic text-[var(--color-humo)]">
+                  — {cita.autor}
+                </cite>
+                <a
+                  href={enlaceEditor(cita.texto, cita.autor)}
+                  class="rounded-md bg-[var(--color-musgo)] px-3 py-1.5 text-xs font-500 text-[var(--color-lino)] transition-colors hover:bg-[var(--color-musgo-claro)]"
+                >
+                  Crear tarjeta
+                </a>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </main>
+
+  <footer class="border-t border-[var(--color-borde)]">
+    <div class="mx-auto max-w-3xl px-6 py-6 font-[family-name:var(--font-mono)] text-xs text-[var(--color-humo)]">
+      Tarjetero · frases para compartir
+    </div>
+  </footer>
+</BaseLayout>
