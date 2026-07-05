@@ -1,0 +1,85 @@
+---
+// AuthForm.astro — formulario reutilizable para login y registro.
+// El mismo formulario sirve para ambos; cambia el "action" (a dónde envía)
+// y los textos, según el modo.
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+interface Props {
+  mode: "login" | "register";
+  error?: string | null;
+  notice?: string | null;
+}
+
+const { mode, error = null, notice = null } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const isLogin = mode === "login";
+const action = isLogin ? "/api/auth/signin" : "/api/auth/signup";
+const title = isLogin ? t("auth.login.title") : t("auth.register.title");
+const submit = isLogin ? t("auth.login.submit") : t("auth.register.submit");
+---
+
+<div class="mx-auto max-w-sm px-6 py-16">
+  <h1 class="mb-6 font-[family-name:var(--font-display)] text-3xl text-[var(--color-tinta)]">
+    {title}
+  </h1>
+
+  {error && (
+    <div class="mb-4 rounded-md border border-[var(--color-oxido)] bg-[#f5e9e1] px-4 py-3 text-sm text-[var(--color-oxido)]">
+      {error}
+    </div>
+  )}
+  {notice && (
+    <div class="mb-4 rounded-md border border-[var(--color-musgo)] bg-[#eaf3de] px-4 py-3 text-sm text-[var(--color-musgo)]">
+      {notice}
+    </div>
+  )}
+
+  <!-- Formulario HTML clásico: envía por POST al endpoint del servidor -->
+  <form method="POST" action={action} class="flex flex-col gap-4">
+    <div>
+      <label for="email" class="mb-1 block text-sm text-[var(--color-humo)]">
+        {t("auth.email")}
+      </label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        required
+        class="w-full rounded-md border border-[var(--color-borde)] bg-[var(--color-lino)] px-3 py-2 text-sm text-[var(--color-tinta)] focus:border-[var(--color-musgo)] focus:outline-none"
+      />
+    </div>
+
+    <div>
+      <label for="password" class="mb-1 block text-sm text-[var(--color-humo)]">
+        {t("auth.password")}
+      </label>
+      <input
+        id="password"
+        name="password"
+        type="password"
+        required
+        minlength="6"
+        class="w-full rounded-md border border-[var(--color-borde)] bg-[var(--color-lino)] px-3 py-2 text-sm text-[var(--color-tinta)] focus:border-[var(--color-musgo)] focus:outline-none"
+      />
+    </div>
+
+    <button
+      type="submit"
+      class="mt-2 rounded-md bg-[var(--color-musgo)] px-4 py-3 text-sm font-500 text-[var(--color-lino)] transition-colors hover:bg-[var(--color-musgo-claro)]"
+    >
+      {submit}
+    </button>
+  </form>
+
+  <p class="mt-6 text-center text-sm text-[var(--color-humo)]">
+    {isLogin ? t("auth.login.noAccount") : t("auth.register.hasAccount")}{" "}
+    <a
+      href={isLogin ? "/register" : "/login"}
+      class="text-[var(--color-musgo)] underline hover:text-[var(--color-musgo-claro)]"
+    >
+      {isLogin ? t("auth.login.goRegister") : t("auth.register.goLogin")}
+    </a>
+  </p>
+</div>

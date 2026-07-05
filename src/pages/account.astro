@@ -1,0 +1,29 @@
+---
+// Página privada: solo visible con sesión iniciada. SSR obligatorio.
+export const prerender = false;
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import { createSupabaseServerClient } from "../lib/supabase";
+import { useTranslations, getLangFromUrl } from "../i18n/utils";
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+
+// El guardián: si no hay usuario, redirige al login.
+const supabase = createSupabaseServerClient(Astro.cookies);
+const { data: { user } } = await supabase.auth.getUser();
+if (!user) return Astro.redirect("/login");
+---
+
+<BaseLayout title={t("auth.account.title")}>
+  <Header />
+  <section class="mx-auto max-w-2xl px-6 py-16">
+    <h1 class="mb-4 font-[family-name:var(--font-display)] text-3xl text-[var(--color-tinta)]">
+      {t("auth.account.title")}
+    </h1>
+    <p class="mb-2 text-[var(--color-humo)]">
+      {t("auth.account.welcome")}: <span class="font-[family-name:var(--font-mono)] text-[var(--color-tinta)]">{user.email}</span>
+    </p>
+    <p class="text-[var(--color-humo)]">{t("auth.account.soon")}</p>
+  </section>
+</BaseLayout>

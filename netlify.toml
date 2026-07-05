@@ -1,0 +1,8 @@
+# Configuración de build para Netlify.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Node 20 para asegurar compatibilidad con Astro 5.
+[build.environment]
+  NODE_VERSION = "20"

@@ -1,0 +1,11 @@
+// Endpoint de logout. Cierra la sesión y vuelve al inicio.
+export const prerender = false;
+
+import type { APIRoute } from "astro";
+import { createSupabaseServerClient } from "../../../lib/supabase";
+
+export const POST: APIRoute = async ({ cookies, redirect }) => {
+  const supabase = createSupabaseServerClient(cookies);
+  await supabase.auth.signOut();
+  return redirect("/");
+};

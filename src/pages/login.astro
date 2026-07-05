@@ -1,0 +1,27 @@
+---
+// Página de login. SSR para poder mostrar errores y redirigir si ya hay sesión.
+export const prerender = false;
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/Header.astro";
+import AuthForm from "../components/AuthForm.astro";
+import { createSupabaseServerClient } from "../lib/supabase";
+import { useTranslations, getLangFromUrl } from "../i18n/utils";
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+
+// Si ya está logueado, lo mandamos a su cuenta
+const supabase = createSupabaseServerClient(Astro.cookies);
+const { data: { user } } = await supabase.auth.getUser();
+if (user) return Astro.redirect("/account");
+
+// Mensajes que pueden venir por la URL (?error=... o ?notice=...)
+const url = new URL(Astro.request.url);
+const error = url.searchParams.get("error") ? t("auth.error.generic") : null;
+const notice = url.searchParams.get("registered") ? t("auth.register.check") : null;
+---
+
+<BaseLayout title={t("auth.login.title")}>
+  <Header />
+  <AuthForm mode="login" error={error} notice={notice} />
+</BaseLayout>
