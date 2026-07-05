@@ -218,5 +218,38 @@ try {
     }
   });
 
-  document.fonts.ready.then(render);
+  // ¿Vinimos de "Abrir en el editor"? La URL trae ?cargar=ID.
+  // Si es así, traemos esa tarjeta y precargamos sus valores.
+  async function cargarTarjetaSiCorresponde() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("cargar");
+    if (!id) return;
+
+    try {
+      const res = await fetch(`/api/cards/get?id=${encodeURIComponent(id)}`);
+      if (!res.ok) return; // si falla (sin sesión, no existe), seguimos con la tarjeta por defecto
+      const c = await res.json();
+
+      // Actualizamos el estado con lo guardado
+      state.quote = c.quote ?? state.quote;
+      state.author = c.author ?? state.author;
+      state.bg = c.bg ?? state.bg;
+      state.font = c.font ?? state.font;
+
+      // Reflejamos los valores en los campos del formulario
+      if (quoteInput) quoteInput.value = state.quote;
+      if (authorInput) authorInput.value = state.author;
+
+      // Limpiamos el ?cargar de la URL para que un refresh no recargue de nuevo
+      window.history.replaceState({}, "", window.location.pathname);
+    } catch {
+      // silencioso: si algo falla, queda la tarjeta por defecto
+    }
+  }
+
+  // Primero intentamos cargar (si corresponde), y después renderizamos.
+  document.fonts.ready.then(async () => {
+    await cargarTarjetaSiCorresponde();
+    render();
+  });
 </script>
